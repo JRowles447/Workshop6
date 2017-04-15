@@ -3,8 +3,19 @@ var express = require('express');
 // Creates an Express server.
 var app = express();
 
+var ReverseModule = require('./util');
+var reverseString = ReverseModule.reverseString;
+var bodyParser = require('body-parser');
+
+app.use(bodyParser.text());
+// You run the server from `server`, so `../client/build` is `server/../client/build`.
+// '..' means "go up one directory", so this translates into `client/build`!
+app.use(express.static('../client/build'));
+
+
+
 // Defines what happens when it receives the `GET /` request
-app.get('/', function (req, res) {
+app.get('', function (req, res) {
   res.send('Hello World!');
 });
 
@@ -13,16 +24,8 @@ app.listen(3000, function () {
   console.log('Example app listening on port 3000!');
 });
 
-var ReverseModule = require('./util');
-var reverseString = ReverseModule.reverseString;
-var bodyParser = require('body-parser');
-
-app.use(bodyParser.text());
-
-
-
 // Handle POST /reverse [data]
-app.post('/reverse', function (req, res) {
+app.post('', function (req, res) {
   // If the request came with text, then the text() middleware handled it
   // and made `req.body` a string.
   // Check that req.body is a string.
